@@ -1,47 +1,39 @@
 import java.util.*;
 
-public class Question6 {
-    int rotateMatrix(int days, int[] arr, int arrSize){
-        List<Integer> list = new ArrayList<>();
+public class Question3 {
+    private int getNotificationCount(int days, int[] arr, int arrSize){
+        // notification count
+        int notificationCount = 0;
 
-        for(int i=0; i<days; i++)
-            list.add(arr[i]);
+        int[] tempArr = copyAndSortRange(arr, 0, days);
+        int currentMedian = getMedian(tempArr, days);
 
-        List<Integer> listSort = new ArrayList<>(list);
-        Collections.sort(listSort);
-
-        int currentMedian = getMedian(listSort, days);
-        int notifyCount = 0;
-
-        System.out.println(list + " " + listSort + " " + currentMedian);
-
-
-        for(int i=days; i<arrSize; i++){
-            list.remove(0);
-            list.add(arr[i]);
-
-            listSort = new ArrayList<>(list);
-            Collections.sort(listSort);
-
-            int median = getMedian(listSort, days);
-
-            System.out.println(list + " " + listSort + " " + currentMedian + " " + median);
-
-            if(median*2 >= currentMedian)
-                notifyCount++;
-
-            currentMedian = median;
+        int i=1, j=days-1;
+        while(j<arrSize){
+            tempArr = copyAndSortRange(arr, i, j+1);
+            if(arr[j] >= currentMedian*2){
+                notificationCount++;
+            }
+            currentMedian = getMedian(tempArr, days);
+            j++;
+            i++;
         }
 
-        return notifyCount;
+        return notificationCount;
     }
 
-    private int getMedian(List<Integer> list, int size){
+    private int getMedian(int[] list, int size){
         if(size%2!=0){
-            return list.get(size/2);
+            return list[size/2];
         }
 
-        return (list.get(size/2) + list.get((size+1)/2))/2;
+        return (list[size/2] + list[(size+1)/2])/2;
+    }
+
+    private int[] copyAndSortRange(int[] arr, int start, int end){
+        int[] tempArray = Arrays.copyOfRange(arr, start, end);
+        Arrays.sort(tempArray);
+        return tempArray;
     }
 
     public static void main(String[] args) {
@@ -63,8 +55,8 @@ public class Question6 {
             arr[i] = sc.nextInt();
         }
 
-        Question6 q6 = new Question6();
-        int res = q6.rotateMatrix(days, arr, arrSize);
+        Question3 q3 = new Question3();
+        int res = q3.getNotificationCount(days, arr, arrSize);
 
         System.out.println(res);
     }
