@@ -3,25 +3,26 @@ import java.util.HashSet;
 import java.util.Scanner;
 
 public class Question4 {
-    private String replace(String string1, String string2){
-        int ind = string1.indexOf(string2);
-        if(ind == -1)
-            return string1;
-        string1 = string1.substring(0, ind-1) + " " + string2 + " " + string1.substring(ind+string2.length());
-        return replace(string1 , string2);
-    }
+    private String recursion(String[] words, String mainString, int index, String resStr){
+        if(mainString.isEmpty()) return "null";
+        if(mainString.length() == index) return resStr;
 
-    private String rec(String[] words, String mainString){
-        HashSet<String> hashSet = new HashSet<>();
 
-        for(String word: words){
-            if(hashSet.contains(word)) continue;
-            if(word.equals(mainString)) continue;
-            hashSet.add(word);
-            mainString = replace(word, mainString);
+        for(int i=0; i<words.length; i++){
+            String word = words[index];
+
+            if(index+word.length() > mainString.length()) continue;
+
+            String mainStringPart = mainString.substring(index, index+word.length());
+            if(word.equals(mainStringPart)){
+                String result = recursion(words, mainString, index+word.length(), resStr+mainStringPart+" ");
+                if(!result.equals("null")){
+                    return result;
+                }
+            }
         }
 
-        return mainString;
+        return "null";
     }
 
     public static void main(String[] args) {
@@ -36,7 +37,7 @@ public class Question4 {
         while(testcases-- > 0){
             // number of words
             System.out.println("number of words: ");
-            int noOfWords = sc.nextInt();
+            int noOfWords = Integer.parseInt(sc.nextLine());
 
             // get words
             System.out.println("words: ");
@@ -48,7 +49,7 @@ public class Question4 {
             System.out.println("main string: ");
             String mainString = sc.nextLine();
 
-            System.out.println(q4.rec(words, mainString));
+            System.out.println(q4.recursion(words, mainString, 0, ""));
         }
     }
 }
