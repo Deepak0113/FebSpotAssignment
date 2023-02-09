@@ -3,14 +3,14 @@ import java.util.Scanner;
 
 public class Question8 {
     private void insertionSort(int[] arr){
-        for(int i=0; i<arr.length-1; i++){
-            int insertValue = arr[i];
-            for(int j=i-1; j>=0; j--){
-                if(arr[j] > arr[j+1]){
-                    arr[j+1] = arr[j];
-                    arr[j] = insertValue;
-                }
+        for(int i=0;i<arr.length;i++){
+            int j=i-1;
+            int key=arr[i];
+            while(j>=0 && arr[j]>key){
+                arr[j+1]=arr[j];
+                j--;
             }
+            arr[j+1]=key;
         }
     }
 

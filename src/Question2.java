@@ -3,23 +3,22 @@ import java.util.Scanner;
 
 public class Question2 {
     private void sort(int[] indPos, String[] strPos, int[] originalPos){
-        for(int i=0; i<indPos.length; i++){
+        for(int i=0;i<indPos.length;i++){
+            int j=i-1;
             int insertValue = indPos[i];
             String string = strPos[i];
             int oPos = originalPos[i];
 
-            for(int j=i-1; j>=0; j--){
-                if(indPos[j] > indPos[j+1]){
-                    indPos[j+1] = indPos[j];
-                    indPos[j] = insertValue;
-
-                    strPos[j+1] = strPos[j];
-                    strPos[j] = string;
-
-                    originalPos[j+1] = originalPos[j];
-                    originalPos[j] = oPos;
-                }
+            while(j>=0 && indPos[j]>insertValue){
+                indPos[j+1]=indPos[j];
+                strPos[j+1]=strPos[j];
+                originalPos[j+1]=originalPos[j];
+                j--;
             }
+
+            indPos[j+1]=insertValue;
+            strPos[j+1]=string;
+            originalPos[j+1]=oPos;
         }
     }
 
@@ -46,13 +45,9 @@ public class Question2 {
         Question2 q2 = new Question2();
         q2.sort(indPos, strPos, originalPos);
 
-        System.out.println(Arrays.toString(indPos));
-        System.out.println(Arrays.toString(strPos));
-        System.out.println(Arrays.toString(originalPos));
-
         for(int i=0; i<n; i++){
-            if(originalPos[i] <= n/2){
-                result += '-' + " ";
+            if(originalPos[i] < n/2){
+                result += "- ";
             } else{
                 result += strPos[i] + " ";
             }
