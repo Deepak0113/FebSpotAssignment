@@ -21,24 +21,6 @@ public class Question2 {
                 }
             }
         }
-
-        int n = indPos.length;
-        for (int i = 1; i < n; ++i) {
-            int insertValue = indPos[i];
-            String string = strPos[i];
-            int oPos = originalPos[i];
-            int j = i - 1;
-
-            while (j >= 0 && indPos[j] > insertValue) {
-                indPos[j+1] = indPos[j];
-                strPos[j+1] = strPos[j];
-                originalPos[j+1] = originalPos[j];
-                j--;
-            }
-            indPos[j + 1] = insertValue;
-            strPos[j + 1] = string;
-            originalPos[j + 1] = oPos;
-        }
     }
 
     public static void main(String[] args) {
